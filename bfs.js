@@ -1,5 +1,3 @@
-// import cytoscape from "cytoscape"; //not working :(
-
 let cy = cytoscape({
   container: $("#cy"),
 
@@ -35,57 +33,61 @@ let cy = cytoscape({
     .selector("node")
     .style({
       content: "data(label)",
-      "background-color": "rgb(236, 27, 255)",
+      "background-color": "#5B54FA",
     })
     .selector("edge")
     .style({
       "curve-style": "bezier",
-      "line-arrow-color": "rgb(236, 27, 255)",
+      "target-arrow-shape": "triangle",
       width: 4,
+      "line-color": "#ddd",
+      "target-arrow-color": "#ddd",
     })
     .selector(".highlighted")
     .style({
       "background-color": "rgb(255, 213, 27)",
       "line-color": "rgb(255, 175, 27)",
-      "transition-property": "background-color,line-color",
+      "target-arrow-color": "rgb(255, 175, 27)",
+      "transition-property":
+        "background-color, line-color,  target-arrow-color",
       "transition-duration": "0.5s",
     }),
 
   layout: {
     name: "cose",
-    directed: false,
-    roots: "#n0",
+    directed: true,
+    roots: "#a",
     padding: 10,
   },
 });
 
-// initialise DFS algorithm, root node = 1
-let dfs = cy.elements().dfs("#n1", function () {}, true);
+let bfs = cy.elements().bfs("#n1", function () {}, true);
 
 let i = 0;
 let highlightNextElement = function () {
-  if (i < dfs.path.length) {
-    dfs.path[i].addClass("highlighted");
+  if (i < bfs.path.length) {
+    bfs.path[i].addClass("highlighted");
     i++;
-    setTimeout(highlightNextElement, 500);
+    setTimeout(highlightNextElement, 250);
   }
 };
+
 let removeHighlight = function () {
-  if (i < dfs.path.length) {
-    dfs.path[i].removeClass("highlighted");
+  if (i < bfs.path.length) {
+    bfs.path[i].removeClass("highlighted");
     i++;
     setTimeout(removeHighlight);
   }
 };
 
-const Dfs = $("#Dfs");
-Dfs.on("click", (e) => {
+const Bfs = $("#Bfs");
+Bfs.on("click", (e) => {
   i = 0;
   highlightNextElement();
 });
 
-const Reset = $("#Reset");
-Reset.on("click", (e) => {
+const reset = $("#Reset");
+reset.on("click", (e) => {
   i = 0;
   removeHighlight();
 });
