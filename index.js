@@ -19,7 +19,7 @@ $("form").on("submit", (e) => {
   isWeighted = $("#weighted").val();
   startNode = $("#start-node").val();
   endNode = $("#end-node").val();
-  timeout = $("#speed").val();
+  timeout = 1/($("#speed").val());
 
   //Initialise cytoscape
   (cy = ""),
